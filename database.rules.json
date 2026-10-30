@@ -1,0 +1,29 @@
+{
+  "rules": {
+    ".read": false,
+    ".write": false,
+    "codes": {
+      "$h": {
+        ".read": "auth != null",
+        ".write": "auth != null && (!data.exists() || !newData.exists() || data.child('mess').val() === newData.child('mess').val())",
+        ".validate": "$h.matches(/^[a-f0-9]{64}$/) && newData.hasChildren(['mess','id']) && newData.child('mess').isString() && newData.child('id').isString() && newData.child('mess').val().length <= 64 && newData.child('id').val().length <= 64",
+        "mess": { ".validate": "newData.isString()" },
+        "id": { ".validate": "newData.isString()" },
+        "$other": { ".validate": false }
+      }
+    },
+    "mess": {
+      "$m": {
+        ".read": "auth != null",
+        ".write": "auth != null",
+        ".validate": "$m.matches(/^[a-z0-9]{20,64}$/)",
+        "members": { "$id": { ".validate": "newData.isString() && newData.val().length <= 40000" } },
+        "bazar": { "$id": { ".validate": "newData.isString() && newData.val().length <= 4000" } },
+        "config": { "$id": { ".validate": "newData.isString() && newData.val().length <= 4000" } },
+        "log": { "$id": { ".validate": "newData.isString() && newData.val().length <= 1500" } },
+        "_v": { ".validate": "newData.isString() && newData.val().length <= 40" },
+        "$other": { ".validate": false }
+      }
+    }
+  }
+}
